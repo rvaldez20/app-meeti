@@ -4,7 +4,7 @@ const path = require('path');
 const routes = require('./routes/index.routes');
 
 const db = require('./config/db');
-const { devNull } = require('os');
+require('./models/Usuarios');
 db.sync().then(() => console.log('DB Connected!')).catch((error) => console.log(error))
 
 require('dotenv').config({path: 'variables.env'});
