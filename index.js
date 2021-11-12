@@ -3,13 +3,21 @@ const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
 const routes = require('./routes/index.routes');
 
+//Configuracion DB y odelos
 const db = require('./config/db');
-require('./models/Usuarios');
-db.sync().then(() => console.log('DB Connected!')).catch((error) => console.log(error))
+   require('./models/Usuarios');
+   db.sync().then(() => console.log('DB Connected!')).catch((error) => console.log(error))
 
+
+// Variables de entorno   
 require('dotenv').config({path: 'variables.env'});
 
+// aplicacion
 const app =  express();
+
+// habilitamos el parseo
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 // habilitar EJS como templateEngie
 app.use(expressLayouts)
