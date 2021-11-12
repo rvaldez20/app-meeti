@@ -19,6 +19,14 @@ app.set('views', path.join(__dirname, './views'));
 app.use(express.static('public'));
 
 
+//Middlewares
+app.use((req, res, next) => {
+   const fecha = new Date();
+   res.locals.year = fecha.getFullYear();
+   next();
+});
+
+
 //Routing
 app.use('/', routes())
 
