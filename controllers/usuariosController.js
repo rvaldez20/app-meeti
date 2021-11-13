@@ -10,9 +10,15 @@ exports.crearNuevaCuenta = async (req, res) => {
    const usuario =  req.body;
    // const {email, nombre, password, repetir} = req.body;
 
+   try {
+      nuevoUsuario = await Usuarios.create(usuario);
 
-   nuevoUsuario = await Usuarios.create(usuario);
+      // TODO: Flas Message
+      console.log('Usuario Creado', nuevoUsuario);   
+   } catch (error) {
+       console.log(error)
+   }
 
-   // TODO: Flas Message
-   console.log('Usuario Creado', nuevoUsuario);
+
+   
 }

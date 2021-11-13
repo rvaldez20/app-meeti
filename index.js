@@ -1,6 +1,9 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
+const flash = require('connect-flash');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const routes = require('./routes/index.routes');
 
 //Configuracion DB y odelos
@@ -19,6 +22,7 @@ const app =  express();
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+
 // habilitar EJS como templateEngie
 app.use(expressLayouts)
 app.set('view engine', 'ejs');
@@ -32,8 +36,26 @@ app.set('views', path.join(__dirname, './views'));
 app.use(express.static('public'));
 
 
+// Habilitamos cookie parser
+app.use(cookieParser());
+
+
+// crear la sesion
+app.use(session({
+   secret: process.env.SECRET,
+   key: process.env.KEY,
+   resave: false,
+   saveUninitialized: false
+}))
+
+
+// Agrega  Flsh Message
+app.use(flash());
+
+
 //Middlewares
 app.use((req, res, next) => {
+   res.locals.mensaje = req.flash();
    const fecha = new Date();
    res.locals.year = fecha.getFullYear();
    next();
