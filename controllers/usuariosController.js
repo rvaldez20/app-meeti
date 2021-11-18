@@ -45,8 +45,8 @@ exports.crearNuevaCuenta = async (req, res) => {
       //Flas Message
       // console.log('Usuario Creado', nuevoUsuario);
 
-      // req.flash('exito', 'Hemos enviado un email, confirma tu cuenta');
-      // res.redirect('/iniciar-sesion');
+      req.flash('exito', 'Hemos enviado un email, confirma tu cuenta');
+      res.redirect('/iniciar-sesion');
 
    } catch (error) {
       console.log(error)

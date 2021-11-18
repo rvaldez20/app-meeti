@@ -10,7 +10,7 @@ let transport = nodemailer.createTransport({
    port: emailConfig.port,
    auth: {
       user: emailConfig.user,
-      password: emailConfig.pass
+      pass: emailConfig.pass
    }
 });
 
@@ -37,8 +37,8 @@ exports.enviarEmail = async(opciones) => {
       from: 'Meeti<noreplay@meeti.com>',
       to: opciones.usuario.email,
       subject: opciones.subject,
-      // html: html
-      text: 'Pueba'
+      html: html
+      //text: 'Pueba'
    }
 
 
