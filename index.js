@@ -4,6 +4,7 @@ const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const expressValidator = require('express-validator');
 const routes = require('./routes/index.routes');
 
 //Configuracion DB y odelos
@@ -21,6 +22,10 @@ const app =  express();
 // habilitamos el parseo
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
+
+// validacion de express validator
+app.use(expressValidator());
 
 
 // habilitar EJS como templateEngie
@@ -55,7 +60,7 @@ app.use(flash());
 
 //Middlewares
 app.use((req, res, next) => {
-   res.locals.mensaje = req.flash();
+   res.locals.mensajes = req.flash();
    const fecha = new Date();
    res.locals.year = fecha.getFullYear();
    next();

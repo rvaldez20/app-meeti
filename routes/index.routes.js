@@ -12,6 +12,8 @@ module.exports = function (){
    // ends points para usuarios, 
    router.get('/crear-cuenta', usuariosController.formCrearCuenta);
    router.post('/crear-cuenta', usuariosController.crearNuevaCuenta);
+   router.get('/iniciar-sesion', usuariosController.formIniciarSesion);
+   
 
    return router;
 }

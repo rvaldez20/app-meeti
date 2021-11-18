@@ -24,7 +24,7 @@ const Usuarios = db.define('usuarios', {
       unique: {
          args: true,
          msg: 'Usuario ya registrado'
-      },
+      }
    },
    password: {
       type: DataTypes.STRING(60),

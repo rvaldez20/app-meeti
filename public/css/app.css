@@ -347,7 +347,7 @@ main.categorias {
 main.contenedor-formularios {
     max-width: 900px;
     width:95%;
-    padding: 5rem 0;
+    padding: 2rem 0;
 }
 .no-padding {
     padding: 0!important;
