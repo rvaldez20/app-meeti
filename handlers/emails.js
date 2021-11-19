@@ -21,7 +21,7 @@ exports.enviarEmail = async(opciones) => {
    // const archivo = __dirname + `/../views/emails/${opciones.archivo}.ejs`;
    const archivo = path.join(__dirname + `/../views/emails/${opciones.archivo}.ejs`);
    // console.log(__dirname);
-   console.log(archivo);
+   // console.log(archivo);
 
 
    // compilarlo
@@ -38,7 +38,6 @@ exports.enviarEmail = async(opciones) => {
       to: opciones.usuario.email,
       subject: opciones.subject,
       html: html
-      //text: 'Pueba'
    }
 
 
