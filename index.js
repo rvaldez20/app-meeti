@@ -5,10 +5,12 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
+const passport = require('./config/passport');
 const routes = require('./routes/index.routes');
 
 //Configuracion DB y odelos
 const db = require('./config/db');
+const { pass } = require('./config/emails');
    require('./models/Usuarios');
    db.sync().then(() => console.log('DB Connected!')).catch((error) => console.log(error))
 
@@ -51,7 +53,12 @@ app.use(session({
    key: process.env.KEY,
    resave: false,
    saveUninitialized: false
-}))
+}));
+
+
+// inicializar passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // Agrega  Flsh Message
