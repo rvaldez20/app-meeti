@@ -10,8 +10,8 @@ const routes = require('./routes/index.routes');
 
 //Configuracion DB y odelos
 const db = require('./config/db');
-const { pass } = require('./config/emails');
    require('./models/Usuarios');
+   require('./models/Categorias');
    db.sync().then(() => console.log('DB Connected!')).catch((error) => console.log(error))
 
 
