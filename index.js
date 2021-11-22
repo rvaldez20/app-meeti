@@ -12,6 +12,7 @@ const routes = require('./routes/index.routes');
 const db = require('./config/db');
    require('./models/Usuarios');
    require('./models/Categorias');
+   require('./models/Grupos');
    db.sync().then(() => console.log('DB Connected!')).catch((error) => console.log(error))
 
 
