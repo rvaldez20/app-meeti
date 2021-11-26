@@ -41,7 +41,7 @@ exports.crearNuevaCuenta = async (req, res) => {
       res.redirect('/iniciar-sesion');
 
    } catch (error) {
-      console.log(error)
+      // console.log(error)
 
       // extraer unicamente el message de lo serores de errores de sequilize
       const erroresSeequelize = error.errors.map( err => err.message);
