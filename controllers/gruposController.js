@@ -17,7 +17,16 @@ const configuracionMulter = {
          const extension = file.mimetype.split('/')[1];
          next(null, `${shortid.generate()}.${extension}`)
       }
-   })
+   }),
+   fileFilter(req, file, next) {
+      if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+         // formato valido [null pq no hay errro y tre pq se acepta el archvio]
+         next(null, true);
+      } else {
+         // firmato invalidpo [se le pasa un error y false pq se rechaza el archvio]
+         next(new Error('Formato no válido'), false);
+      }
+   }
 }
 
 // lo que va en el single es el name de input tipo file
@@ -26,27 +35,25 @@ const upload = multer(configuracionMulter).single('imagen');
 // para subir la imagen al servidor
 exports.subirImagen = (req, res, next) => {
    upload(req, res, function(error) {
-      if(error) {
-         console.log(error);
-         if(error) {
-            if (error instanceof multer.MulterError){
-               if(error.code === 'LIMIT_FILE_SIZE') {
-                  req.flash('error', 'El archivo es muy grande')
-               } else {
-                  req.flash('error', error.message);
-               }
-               res.redirect('back');
-               return;
+      console.log(error);  
+      if(error) {               
+         if (error instanceof multer.MulterError){
+            if(error.code === 'LIMIT_FILE_SIZE') {
+               req.flash('error', 'El archivo es muy grande')
             } else {
-               next();
-            }
+               req.flash('error', error.message);
+            }               
+         } else if(error.hasOwnProperty('message')){
+            req.flash('error', error.message)
          }
+         res.redirect('back');
+         return;
       } else {
          next();
-      }
+      }       
    })
-
 }
+
 
 // formulario para craer un nuevo grupo
 exports.formNuevoGrupo = async(req, res) => {
@@ -72,9 +79,10 @@ exports.crearGrupo = async (req, res) => {
    grupo.usuarioId = req.user.id;
    grupo.categoriaId = req.body.categoria;
 
-   //leer la imagen
-   grupo.imagen = req.file.filename;
-
+   //leer la imagen (validar si se cargo un archivo)
+   if (req.file) {
+      grupo.imagen = req.file.filename;
+   }
 
    try {
       // almacenamos los datos del grupo en la db

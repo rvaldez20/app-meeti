@@ -33,7 +33,8 @@ const Grupos = db.define('grupos', {
       type: DataTypes.TEXT
    },
    imagen: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      allowNull: true,
    }
 });
 
