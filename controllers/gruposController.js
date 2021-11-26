@@ -17,6 +17,9 @@ exports.crearGrupo = async (req, res) => {
    const grupo = req.body;
    // console.log(grupo);
 
+   grupo.usuarioId = req.user.id;
+   grupo.categoriaId = req.body.categoria;
+
    try {
       // almacenamos los datos del grupo en la db
       await Grupos.create(grupo);
