@@ -37,6 +37,11 @@ module.exports = function (){
       [authController.usuarioAutenticado, gruposController.subirImagen],      
       gruposController.crearGrupo
    );
+   // editar grupos
+   router.get('/editar-grupo/:grupoId',
+      [authController.usuarioAutenticado, gruposController.subirImagen],
+      gruposController.formEditarGrupo
+   );
    
 
    return router;

@@ -7,7 +7,7 @@ exports.panelAdministracion = async(req, res) => {
    // console.log(grupos);
 
    res.render('administracion', {
-      nombrePagina: 'Panel de Adminiostración',
+      nombrePagina: 'Panel de Administración',
       grupos
    })
 }

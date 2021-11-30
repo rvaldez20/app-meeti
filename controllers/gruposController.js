@@ -97,7 +97,21 @@ exports.crearGrupo = async (req, res) => {
       req.flash('error', erroresSeequelize);
       res.redirect('/nuevo-grupo');
    }
-
 }
 
 
+exports.formEditarGrupo = async (req, res) => {
+   const { grupoId } =  req.params;
+
+   // const categorias = await Categorias.findOne();
+   const grupo = await Grupos.findByPk(grupoId);
+   // console.log(grupo);
+
+   if(grupo) {
+      res.render('editar-grupo', {
+         nombrePagina: `Editar Grupo: ${grupo.nombre}`,
+         grupo,
+         // categorias
+      })
+   }
+}
