@@ -59,6 +59,7 @@ exports.subirImagen = (req, res, next) => {
 exports.formNuevoGrupo = async(req, res) => {
    // obtenemos todas las categorias
    const categorias = await Categorias.findAll();
+   // console.log(categorias);
    
    res.render('nuevo-grupo', {
       nombrePagina: 'Crea un nuevo Grupo',
@@ -77,7 +78,7 @@ exports.crearGrupo = async (req, res) => {
 
    // se agregan los comapos con los que se hace la relacion
    grupo.usuarioId = req.user.id;
-   grupo.categoriaId = req.body.categoria;
+   // grupo.categoriaId = req.body.categoriaId; // el selecte tiene name categoriaId
 
    //leer la imagen (validar si se cargo un archivo)
    if (req.file) {
@@ -103,15 +104,21 @@ exports.crearGrupo = async (req, res) => {
 exports.formEditarGrupo = async (req, res) => {
    const { grupoId } =  req.params;
 
+   // se optimiza las consultas con multiples await
+   // const grupo = await Grupos.findByPk(grupoId);
    // const categorias = await Categorias.findOne();
-   const grupo = await Grupos.findByPk(grupoId);
-   // console.log(grupo);
 
-   if(grupo) {
-      res.render('editar-grupo', {
-         nombrePagina: `Editar Grupo: ${grupo.nombre}`,
-         grupo,
-         // categorias
-      })
-   }
+   // metemos al array consultas las 2 consultas
+   const consultas = [];
+   consultas.push( Grupos.findByPk(grupoId) );
+   consultas.push( Categorias.findAll() );
+   // Promise con await para que todas se ejecuten al mismo tiempo (ya que una no depende de otra)
+   const [grupo, categorias] = await Promise.all(consultas);
+
+   res.render('editar-grupo', {
+      nombrePagina: `Editar Grupo: ${grupo.nombre}`,
+      grupo,
+      categorias
+   })
+   
 }
