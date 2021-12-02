@@ -100,7 +100,7 @@ exports.crearGrupo = async (req, res) => {
    }
 }
 
-
+// formulario para editar un grupo (solo nombre, descripcion, categoria y url)
 exports.formEditarGrupo = async (req, res) => {
    const { grupoId } =  req.params;
 
@@ -122,7 +122,7 @@ exports.formEditarGrupo = async (req, res) => {
    })  
 }
 
-// para guardar en la db
+// para guardar los campos de un grupo (solo nombre, descripcion, categoria y url) en la db
 exports.editarGrupo = async(req, res, next) => {
    const { grupoId } =  req.params;
 
@@ -158,3 +158,15 @@ exports.editarGrupo = async(req, res, next) => {
    res.redirect('/administracion');
 }
 
+// formulario para cambiar la imagen
+exports.formEditarImagen = async(req, res) => {
+   const { grupoId } =  req.params;
+
+   const grupo = await Grupos.findByPk(grupoId);
+   // console.log(grupo);
+
+   res.render('imagen-grupo',{
+      nombrePagina: `Editar Imagen Grupo: ${grupo.nombre}`,
+      grupo
+   })
+}
