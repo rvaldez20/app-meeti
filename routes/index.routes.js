@@ -56,6 +56,12 @@ module.exports = function (){
       [authController.usuarioAutenticado, gruposController.subirImagen],
       gruposController.editarImagen
    )
+
+   // Eliminar grupos
+   router.get('/eliminar-grupo/:grupoId',
+      authController.usuarioAutenticado,
+      gruposController.formEliminarGrupo
+   );
    
 
    return router;
