@@ -6,22 +6,17 @@
          <label for="imagen">Imagen</label>
          <input type="file" name="imagen" id="imagen">
       </div>
-
-      
          <div class="campo">
             <label>Imagen Actua</label>
             <% if(grupo.imagen) { %> 
-               <img src="/uploads/grupos/<%= grupo.imagen %>" width="300" >
+               <img src="/uploads/grupos/<%= grupo.imagen %>" width="250">
             <% } else { %> 
-               <img src="/uploads/grupos/no-imagen.jpg" width="300" >
+               <img src="/uploads/grupos/no-imagen.jpg" width="250">
             <% } %> 
          </div>
          <div class="campo enviar">         
             <input type="submit" value="Subir Imagen" class="btn btn-rosa">
          </div>
-
-      
-      
    </form>
 
 </main>

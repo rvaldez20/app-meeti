@@ -2,6 +2,7 @@ const Categorias = require('../models/Categorias');
 const Grupos = require('../models/Grupos');
 
 const path = require('path');
+const fs = require('fs');
 const multer = require('multer');
 const shortid = require('shortid');
 
@@ -162,11 +163,72 @@ exports.editarGrupo = async(req, res, next) => {
 exports.formEditarImagen = async(req, res) => {
    const { grupoId } =  req.params;
 
-   const grupo = await Grupos.findByPk(grupoId);
+   const grupo = await Grupos.findOne(
+      { where: {
+         id: grupoId,
+         usuarioId:  req.user.id
+         } 
+      });
    // console.log(grupo);
 
    res.render('imagen-grupo',{
       nombrePagina: `Editar Imagen Grupo: ${grupo.nombre}`,
       grupo
    })
+}
+
+// modifica l aimagen en la DB y elimina la anterior
+exports.editarImagen = async(req, res, next) => {
+   const { grupoId } =  req.params;
+
+   const grupo = await Grupos.findOne(
+      { where: {
+         id: grupoId,
+         usuarioId:  req.user.id
+         } 
+      });
+
+   // si el grupo no es valido
+   if(!grupo){
+      req.flash('error', 'Operaicón no valida');
+      res.redirect('/administracion');
+      return next();
+   }
+
+   // si grupo y usuario valido
+   // verificar que el archivo sea nuevo
+   if(req.file) {
+      console.log(req.file.filename);
+   }
+
+   // ahora revisamos que exista un archvo anterior
+   if(grupo.imagen) {
+      console.log(grupo.imagen);
+   }
+
+   // si hay img anterior y img nueva entonces borramos el archivo de la anterior
+   if(req.file && grupo.imagen) {
+      // se elimina con fs.unlink
+      const imagenAnteriorPath = path.join(__dirname + `/../public/uploads/grupos/${grupo.imagen}`);
+      // console.log(imagenAnteriorPath);
+
+      // eliminamos el archivo con fileSystem.unlink
+      fs.unlink(imagenAnteriorPath, (error) => {
+         if(error) {
+            console.log(error)
+         }
+         return;
+      })
+   }
+
+   // si hay una imagen nueva, se guarda
+   if(req.file) {
+      grupo.imagen = req.file.filename;
+   }
+
+   // se guarda en la DB
+   await grupo.save();
+   req.flash('exito', 'Imagen almacenada correctamente');
+   res.redirect('/administracion');
+
 }
