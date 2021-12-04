@@ -4,7 +4,9 @@
   "description": "Proyecto Meeti con PostgreSQL EJS",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js"
+    "dev": "nodemon ./index.js",
+    "start": "concurrently \"npm run dev\" \"npm run watch\" ",
+    "watch": "webpack --watch --mode development"
   },
   "author": "Raul Valdez",
   "license": "ISC",
