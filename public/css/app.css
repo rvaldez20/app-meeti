@@ -638,3 +638,11 @@ aside img {
      color: #000;
      font-size: 14 px;
  }
+
+ .contenedor-input small{
+     flex-basis: 10%;
+ }
+
+ .input-search {
+    flex-basis: 80%;
+ }
