@@ -12,6 +12,7 @@ if( document.querySelector('#map') ) {
         // shadowSize: [68, 95],
         // shadowAnchor: [22, 94]
     });
+    let markers = new L.FeatureGroup().addTo(map);
     let marker;
     
     document.addEventListener('DOMContentLoaded', () => {
@@ -28,11 +29,14 @@ if( document.querySelector('#map') ) {
     function buscarDireccion(e) {
         if(e.target.value.length > 8) {
             // console.log('Buscando') ;
+
+            // si existe un pin anterior lo limpiamos
+            markers.clearLayers();
     
             //utilizamos el prvader
             const provider = new OpenStreetMapProvider();
             provider.search({ query: e.target.value }).then((resultado) => {
-                console.log(resultado);
+                // console.log(resultado);
         
                 // ubicamos el mapa en base a la busqueda
                 map.setView(resultado[0].bounds[0], 15);
@@ -46,6 +50,19 @@ if( document.querySelector('#map') ) {
                 .addTo(map)
                 .bindPopup(resultado[0].label)
                 .openPopup()
+
+                // detectar movimiento del marker
+                marker.on('moveend', function(e) {
+                    marker = e.target;
+                    console.log(marker.getLatLng());
+                    const nuevaPosicion = marker.getLatLng();
+
+                    // para centrar automaticamente el mapa
+                    map.panTo(new L.LatLng(nuevaPosicion.lat, nuevaPosicion.lng));
+                })
+
+                // asignar al contenedor markers
+                markers.addLayer(marker);
 
             })
     
